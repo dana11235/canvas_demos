@@ -1,0 +1,115 @@
+<head>
+<script src="../jquery-1.11.0.min.js"></script>
+<script>
+var startx = 0;
+var starty = 0;
+var red = 255;
+var green = 0;
+var blue = 0;
+var colorSteps = [
+  {"r": 0, "g": 2, "b": 0},
+  {"r": -5, "g": 0, "b": 0},
+  {"r": 0, "g": -5, "b": 5},
+  {"r": 5, "g": 0, "b": 0},
+  {"r": 0, "g": 0, "b": -5}
+];
+var colorStepIndex = 0;
+var xstep = Math.round(Math.random() * 6) + 5;
+var ystep = Math.round(Math.random() * 5) + 1;
+var directions = [
+  {"x": 1, "y": 1},
+  {"x": 0, "y": -1},
+  {"x": -1, "y": 1},
+  {"x": 0, "y": -1}
+];
+directionIndex = 0;
+alphas = [0.05, -0.05]
+var alpha = 0;
+var alphaIndex = 0;
+function initialize(width, height) {
+  var canvas = $("#canvas");
+  canvas.attr("width", width);
+  canvas.attr("height", height);
+  drawHeart();
+  setInterval(function(){
+    incrementCoordinates();
+    updateColor();
+    updateAlpha();
+    if ((startx + 110 < width) && (startx > 0) && 
+        (starty + 77 < height) && (starty > 0)){
+      drawHeart();
+    } else {
+      decrementCoordinates();
+      directionIndex += 1;
+      setSteps();
+    }
+  }, 10);
+}
+function setSteps() {
+  xstep = Math.floor(Math.random() * 5) + 5;
+  ystep = Math.floor(Math.random() * 5) + 1;
+}
+function incrementCoordinates(){
+  direction = directions[directionIndex % 4];
+  startx += xstep * direction["x"];
+  starty += ystep * direction["y"];
+}
+function decrementCoordinates(){
+  direction = directions[directionIndex % 4];
+  startx -= direction["x"];
+  starty -= direction["y"];
+}
+function updateAlpha() {
+  if (alpha >= 0 && alpha <= 1) {
+    alpha += alphas[alphaIndex % 2];
+  } else {
+    alpha -= alphas[alphaIndex % 2];
+    alphaIndex += 1;
+  }
+}
+function updateColor() {
+  if (red <= 255 && red >= 0 &&
+      blue <= 255 && blue >= 0 &&
+      green <= 255 && green >= 0) {
+    colorStep = colorSteps[colorStepIndex % 5];
+    red += colorStep["r"];
+    green += colorStep["g"];
+    blue += colorStep["b"];
+  } else {
+    red -= colorStep["r"];
+    green -= colorStep["g"];
+    blue -= colorStep["b"];
+    colorStepIndex += 1;
+  }
+}
+function drawHeart() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+    ctx.strokeStyle = 'rgba(0,0,0,' + alpha + ')';
+    ctx.fillStyle = getFillColor();
+    // Quadratric curves example
+    ctx.beginPath();
+    ctx.moveTo(startx + 55, starty + 15);
+    ctx.bezierCurveTo(startx + 55,starty + 12,startx + 50,starty,startx + 30,starty);
+    ctx.bezierCurveTo(startx,starty + 25,startx,starty + 37.5,startx,starty + 37.5);
+    ctx.bezierCurveTo(startx,starty + 55,startx + 20,starty + 77,
+      startx + 55,starty + 95);
+    ctx.bezierCurveTo(startx + 90,starty + 77,startx + 110,starty + 55,
+      startx + 110,starty + 62.5);
+    ctx.bezierCurveTo(startx + 110,starty + 37.5,startx + 110,starty,
+      startx + 80,starty);
+    ctx.bezierCurveTo(startx + 65,starty,startx + 55,starty + 12,
+      startx + 55,starty + 15);
+    ctx.stroke();
+    ctx.fill();
+  }
+}
+function getFillColor(){
+  return "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
+}
+$(document).ready(function(){initialize(640, 480);});
+</script>
+</head>
+<body><canvas id="canvas"></body>

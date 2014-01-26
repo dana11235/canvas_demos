@@ -1,0 +1,26 @@
+<head>
+  <script src="../jquery-1.11.0.min.js"></script>
+  <script src="snakes.js"></script>
+  <script>
+    $(document).ready(function(){
+      initialize(640, 480);
+    });
+  </script>
+  <style>
+    #canvas {
+      border: 3px solid black;
+      margin: 30px 0 0 30px;
+    }
+    body { margin: 0; }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 30px;
+      font-weight: bold;
+      font-family: 'Open Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="score"></div>
+<canvas id="canvas"></body>
