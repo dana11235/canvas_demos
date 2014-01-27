@@ -128,6 +128,7 @@ var Controller = {
           ypos >= currentNumber["y"] - currentNumber["height"] &&
           ypos <= currentNumber["y"]) {
         score += currentNumber["value"];
+        Renderer.playBeep();
         Renderer.drawScore();
         Controller.setCurrentNumber();
         maxCircles += circleIncrement;
@@ -138,12 +139,14 @@ var Controller = {
       // Check for a collision with a wall
       if ((xpos + radius > width) || (xpos - radius < 0) ||
           (ypos + radius > height) || (ypos - radius < 0)) {
+        Renderer.playBomb();
         return true;
       // See whether the snake collided with itself
       } else {
         for (circleIndex in circles.slice(1)) {
           circle = circles[circleIndex]
           if (xpos == circle["x"] && ypos == circle["y"]) {
+            Renderer.playBomb();
             return true;
           }
         }

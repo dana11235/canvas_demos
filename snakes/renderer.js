@@ -78,5 +78,15 @@ var Renderer = {
 
   drawScore: function() {
     $("#score").text("Score: " + score);
+  },
+
+  playBeep: function() {
+    var snd = new Audio('beep.mp3');
+    snd.play();
+  },
+
+  playBomb: function() {
+    var snd = new Audio('bomb.mp3');
+    snd.play();
   }
 }
