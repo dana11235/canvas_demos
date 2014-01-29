@@ -20,11 +20,13 @@ var Controller = {
     score = 0;
     Renderer.drawScore();
     missiles = [];
+    projectiles = [];
     cities = [];
     Controller.setupCities();
 
     $(document).off('keypress.start');
     $(document).on('keypress.controls', Controller.keyPressHandlers.wasd);
+    $("canvas").on("click", Controller.clickHandler);
   },
 
   endGame: function() {
@@ -47,6 +49,10 @@ var Controller = {
     for (missileIndex in missiles) {
       var missile = missiles[missileIndex];
       missile.advance();
+    }
+    for (projectileIndex in projectiles) {
+      var projectile = projectiles[projectileIndex];
+      projectile.advance();
     }
     Renderer.drawFrame();
     if (cities.length == 0) {
@@ -88,6 +94,13 @@ var Controller = {
       }
       evt.preventDefault();
     }
+  },
+
+  /* Click Handler */
+  clickHandler: function(evt) {
+    var X = evt.offsetX;
+    var Y = evt.offsetY;
+    projectiles.push(new Projectile(X, Y, width/2 + 20, height - 40));
   },
 
   /* Detect collision with a number or the wall */

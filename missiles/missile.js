@@ -45,6 +45,10 @@ Missile.prototype.explode = function() {
   missiles.splice(missiles.indexOf(this),1);
 }
 
+Missile.prototype.getSize = function() {
+  return Missile.explosionRadius;
+}
+
 Missile.explosionRadius = 15;
 
 Missile.colors = [

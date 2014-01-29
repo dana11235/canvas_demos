@@ -25,8 +25,11 @@ var Renderer = {
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
       Renderer.drawCities(ctx);
+      Renderer.drawGun(ctx);
       Renderer.drawMissiles(ctx);
+      Renderer.drawProjectiles(ctx);
     }
+    Renderer.drawScore();
   },
 
   drawGameOver: function(callback) {
@@ -72,7 +75,39 @@ var Renderer = {
     ctx.fillStyle = missile.getColor();
     ctx.beginPath();
     var coord = missile.getCoordinates();
-    ctx.arc(coord["current"][0], coord["current"][1], 15, 0, 2*Math.PI);
+    ctx.arc(coord["current"][0], coord["current"][1], 
+      missile.getSize(), 0, 2*Math.PI);
+    ctx.fill();
+  },
+
+  drawProjectiles: function(ctx) {
+    for (projectileIndex in projectiles) {
+      var projectile = projectiles[projectileIndex];
+      Renderer.drawProjectile(ctx, projectile);
+    }
+  },
+
+  drawProjectile: function(ctx, projectile) {
+    ctx.beginPath();
+    var coord = projectile.getCoordinates();
+    ctx.strokeStyle = "blue";
+    ctx.moveTo(coord['begin'][0], coord['begin'][1]);
+    ctx.lineTo(coord['current'][0], coord['current'][1]);
+    ctx.stroke();
+    if (projectile.exploding) {
+      Renderer.drawExplosion(ctx, projectile);
+    }
+  },
+
+
+  drawGun: function(ctx) {
+    ctx.beginPath();
+    ctx.fillStyle = "blue";
+    ctx.arc(width/2 + 20, height, 30, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "black";
+    ctx.rect(width/2 + 15, height - 40, 10, 40);
     ctx.fill();
   },
 
