@@ -1,0 +1,30 @@
+<head>
+  <script src="../jquery-1.11.0.min.js"></script>
+  <script src="missiles.js"></script>
+  <script src="missile.js"></script>
+  <script src="renderer.js"></script>
+  <script src="controller.js"></script>
+  <script>
+    $(document).ready(function(){
+      runMissiles();
+    });
+  </script>
+  <style>
+    #canvas {
+      border: 3px solid black;
+      margin: 30px 0 0 30px;
+    }
+    body { margin: 0; }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 30px;
+      font-weight: bold;
+      font-family: 'Open Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="score"></div>
+<canvas id="canvas"></body>
+<img src="city.png" id="city" style="display: none;"/>
